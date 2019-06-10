@@ -1,0 +1,29 @@
+version: '3.4'
+services:
+  api:
+    build:
+      context: ./context_api
+      args:
+        runuid: ${runuid}
+        rungid: ${rungid}
+    expose:
+      - 80
+    labels:
+      traefik.enable: true
+      traefik.docker.network: "traefik"
+      traefik.frontend.rule: "Host:dev.crowddung.hulloanson.com"
+    volumes:
+      - ${app_dir}:/var/www/html
+    links:
+      - db
+  db:
+    image: mariadb:10.3
+    volumes:
+      - dbdata:/var/lib/mysql
+    env_file: ".dev-build.env"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+
+volumes:
+  dbdata:
+    name: crowddung_dbdata

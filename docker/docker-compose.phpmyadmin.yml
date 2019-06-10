@@ -1,0 +1,10 @@
+version: "3.4"
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db
+    expose:
+      - 80
+    ports:
+      - "${PHPMYADMIN_PORT}:80"
